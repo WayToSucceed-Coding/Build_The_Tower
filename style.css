@@ -1,0 +1,605 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Animated background */
+.bg-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.1;
+    z-index: 1;
+}
+
+.bg-block {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+    }
+}
+
+/* Start Screen */
+.start-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.8s ease;
+}
+
+.start-screen.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.logo {
+    font-size: 4rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    margin-bottom: 2rem;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    }
+
+    to {
+        text-shadow: 0 0 40px rgba(255, 255, 255, 0.8);
+    }
+}
+
+.subtitle-start {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.start-btn {
+    padding: 20px 40px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.start-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.loading {
+    display: none;
+    margin-top: 2rem;
+}
+
+.loading-bar {
+    width: 300px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.loading-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff6b6b, #feca57);
+    width: 0%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+/* Game Container */
+.game-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.game-container.active {
+    opacity: 1;
+}
+
+/* Header */
+.header {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.game-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.stats-row {
+    display: flex;
+    gap: 20px;
+}
+
+.stat-badge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+    min-width: 80px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+/* Challenge Section */
+.challenge-section {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    margin: 15px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.challenge-text {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.equation-display {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.progress-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: white;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #2ecc71, #27ae60);
+    border-radius: 6px;
+    transition: width 0.5s ease;
+}
+
+/* Game Area */
+.game-area {
+    flex: 1;
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+    min-height: 0;
+}
+
+.towers-section {
+    flex: 2;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.towers-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-end;
+    height: 280px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+    position: relative;
+}
+
+.tower {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    min-width: 70px;
+}
+
+.tower:hover {
+    transform: scale(1.05);
+}
+
+.tower.selected {
+    transform: scale(1.1);
+    filter: brightness(1.3);
+}
+
+.tower.correct {
+    box-shadow: 0 0 20px #2ecc71;
+}
+
+.tower.incorrect {
+    box-shadow: 0 0 20px #e74c3c;
+}
+
+/* Enhanced LEGO Blocks */
+.lego-block {
+    width: 60px;
+    height: 24px;
+    margin: 2px 0;
+    border-radius: 6px;
+    position: relative;
+    box-shadow:
+        inset 0 2px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.3),
+        0 3px 6px rgba(0, 0, 0, 0.3);
+    animation: blockPlace 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    user-select: none;
+    cursor: pointer;
+}
+
+.lego-block:hover {
+    filter: brightness(1.15);
+}
+
+@keyframes blockPlace {
+    0% {
+        transform: translateY(-50px) scale(0.5);
+        opacity: 0;
+    }
+
+    70% {
+        transform: translateY(5px) scale(1.1);
+    }
+
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* LEGO studs */
+.lego-block::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    box-shadow:
+        inset 0 2px 2px rgba(0, 0, 0, 0.2),
+        0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* LEGO Colors with realistic gradients */
+.lego-red {
+    background: linear-gradient(145deg, #dc2626, #b91c1c);
+    border: 2px solid #991b1b;
+}
+
+.lego-blue {
+    background: linear-gradient(145deg, #2563eb, #1d4ed8);
+    border: 2px solid #1e40af;
+}
+
+.lego-green {
+    background: linear-gradient(145deg, #16a34a, #15803d);
+    border: 2px solid #166534;
+}
+
+.lego-yellow {
+    background: linear-gradient(145deg, #eab308, #ca8a04);
+    border: 2px solid #a16207;
+}
+
+.lego-orange {
+    background: linear-gradient(145deg, #ea580c, #c2410c);
+    border: 2px solid #9a3412;
+}
+
+.lego-purple {
+    background: linear-gradient(145deg, #9333ea, #7c3aed);
+    border: 2px solid #6b21a8;
+}
+
+.tower-label {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 15px;
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    text-align: center;
+    min-width: 80px;
+}
+
+/* Controls Section */
+.controls-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.control-panel {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.control-btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+}
+
+.control-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.control-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.control-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn-build {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.btn-check {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.btn-remove {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.btn-new {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: white;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+}
+
+.btn-build:disabled,
+.btn-remove:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Result Display */
+.result {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    text-align: center;
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.result.correct {
+    border-color: #22c55e;
+    background: rgba(34, 197, 94, 0.2);
+    animation: celebration 1s ease-in-out;
+}
+
+.result.incorrect {
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.2);
+}
+
+@keyframes celebration {
+
+    0%,
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+
+    25% {
+        transform: scale(1.05) rotate(-2deg);
+    }
+
+    75% {
+        transform: scale(1.05) rotate(2deg);
+    }
+}
+
+/* Confetti */
+.confetti {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    animation: confetti-fall 3s linear infinite;
+    z-index: 1001;
+}
+
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .game-area {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .towers-section {
+        flex: none;
+        height: 300px;
+    }
+
+    .controls-section {
+        flex: none;
+    }
+
+    .control-panel {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .control-btn {
+        flex: 1;
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .logo {
+        font-size: 2.5rem;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .stats-row {
+        justify-content: center;
+    }
+
+    .towers-container {
+        height: 200px;
+    }
+
+    .lego-block {
+        width: 45px;
+        height: 20px;
+    }
+}

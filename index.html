@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Build The Tower</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation" id="bgAnimation"></div>
+
+    <!-- Start Screen -->
+    <div class="start-screen" id="startScreen">
+        <div class="logo">Build The Tower</div>
+        <div class="subtitle-start">Master Division Through Building!</div>
+        <button class="start-btn" onclick="startGame()">START BUILDING</button>
+        <div class="loading" id="loading">
+            <div class="loading-bar">
+                <div class="loading-fill" id="loadingFill"></div>
+            </div>
+            <p style="color: white; margin-top: 10px;">Loading blocks...</p>
+        </div>
+    </div>
+
+    <!-- Game Container -->
+    <div class="game-container" id="gameContainer">
+        <!-- Header -->
+        <div class="header">
+            <div class="game-title">Build The Tower</div>
+            <div class="stats-row">
+                <div class="stat-badge">
+                    <div>Score</div>
+                    <div id="score">0</div>
+                </div>
+                <div class="stat-badge">
+                    <div>Level</div>
+                    <div id="level">1</div>
+                </div>
+                <div class="stat-badge">
+                    <div>Blocks Left</div>
+                    <div id="blocksLeft">20</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenge Section -->
+        <div class="challenge-section">
+            <div class="challenge-text" id="challengeText">
+                🎯 Build 4 equal towers using 20 blocks!
+            </div>
+            <div class="equation-display" id="equationDisplay">
+                20 ÷ 4 = ?
+            </div>
+            <div class="progress-section">
+                <span>Progress:</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+                </div>
+                <span id="progressText">0%</span>
+            </div>
+        </div>
+
+        <!-- Game Area -->
+        <div class="game-area">
+            <!-- Towers Section -->
+            <div class="towers-section">
+                <div class="towers-container" id="towersContainer">
+                    <!-- Towers will be generated here -->
+                </div>
+            </div>
+
+            <!-- Controls Section -->
+            <div class="controls-section">
+                <div class="control-panel">
+                    <button class="control-btn btn-build" id="buildBtn" onclick="addRandomBlock()">
+                        🔨 Add Block
+                    </button>
+                    <button class="control-btn btn-remove" id="removeBtn" onclick="removeBlock()" disabled>
+                        🧹 Remove Last Block
+                    </button>
+                    <button class="control-btn btn-check" onclick="checkAnswer()">
+                        ✅ Check Answer
+                    </button>
+                    <button class="control-btn btn-new" onclick="newChallenge()">
+                        🎲 New Challenge
+                    </button>
+                </div>
+
+                <div id="resultPanel" class="result" style="display: none;">
+                    <!-- Results will appear here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
