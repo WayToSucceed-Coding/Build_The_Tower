@@ -1,57 +1,20 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
     height: 100vh;
+    background-color: #FFBF69;
     overflow: hidden;
     position: relative;
 }
 
-/* Animated background */
-.bg-animation {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.1;
-    z-index: 1;
-}
-
-.bg-block {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    animation: float 6s ease-in-out infinite;
-}
-
-@keyframes float {
-
-    0%,
-    100% {
-        transform: translateY(0px) rotate(0deg);
-    }
-
-    50% {
-        transform: translateY(-20px) rotate(180deg);
-    }
-}
-
 /* Start Screen */
 .start-screen {
+    display: none;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #FFBF69;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -63,6 +26,84 @@ body {
 .start-screen.fade-out {
     opacity: 0;
     pointer-events: none;
+}
+
+/* Floating blocks animation */
+.floating-blocks {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.floating-block {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    opacity: 0.7;
+    z-index: 1;
+}
+
+/* Individual block animations */
+.block1 {
+    animation: float 15s linear infinite;
+    top: 20%;
+    left: 10%;
+}
+
+.block2 {
+    animation: float 18s linear infinite reverse;
+    top: 70%;
+    left: 80%;
+}
+
+.block3 {
+    animation: float 12s linear infinite;
+    top: 20%;
+    left: 80%;
+}
+
+.block4 {
+    animation: float 20s linear infinite reverse;
+    top: 80%;
+    left: 30%;
+}
+
+.block5 {
+    animation: float 18s linear infinite reverse;
+    top: 10%;
+    left: 50%;
+}
+
+.block6 {
+    animation: float 18s linear infinite reverse;
+    top: 80%;
+    left: 0%;
+}
+
+@keyframes float {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    25% {
+        transform: translate(50px, 30px) rotate(90deg);
+    }
+
+    50% {
+        transform: translate(100px, 0) rotate(180deg);
+    }
+
+    75% {
+        transform: translate(50px, -30px) rotate(270deg);
+    }
+
+    100% {
+        transform: translate(0, 0) rotate(360deg);
+    }
 }
 
 .logo {
@@ -92,35 +133,34 @@ body {
 }
 
 .start-btn {
-    padding: 20px 40px;
-    font-size: 1.5rem;
-    font-weight: bold;
-    background: linear-gradient(135deg, #ff6b6b, #ee5a52);
-    color: white;
+    background: transparent;
     border: none;
-    border-radius: 50px;
     cursor: pointer;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+}
+
+button.start-btn img {
+    display: block;
+    width: 300px;
+    /* Adjust to your image size */
+    height: auto;
 }
 
 .start-btn:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
 }
 
 .loading {
     display: none;
-    margin-top: 2rem;
+    margin-top: 0.5rem;
+    align-self: center;
+    text-align: center;
 }
 
 .loading-bar {
     width: 300px;
-    height: 8px;
+    height: 35px;
     background: rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
+    border-radius: 10px;
     overflow: hidden;
 }
 
@@ -132,43 +172,25 @@ body {
     transition: width 0.3s ease;
 }
 
-/* Game Container */
-.game-container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    z-index: 2;
-    opacity: 0;
-    transition: opacity 0.5s ease;
+.loading-text{
+    color:white;
+    font-size: 2rem;
 }
 
-.game-container.active {
-    opacity: 1;
+/* Challenge Section */
+.challenge-section {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    margin: 15px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Header */
-.header {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(15px);
-    padding: 15px;
+.stats{
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-}
-
-.game-title {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.stats-row {
-    display: flex;
-    gap: 20px;
+    flex-direction: row;
 }
 
 .stat-badge {
@@ -180,16 +202,6 @@ body {
     min-width: 80px;
     text-align: center;
     backdrop-filter: blur(10px);
-}
-
-/* Challenge Section */
-.challenge-section {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    margin: 15px;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .challenge-text {
@@ -210,6 +222,7 @@ body {
     font-weight: bold;
     margin-bottom: 15px;
 }
+
 
 .progress-section {
     display: flex;
@@ -254,7 +267,7 @@ body {
 .towers-container {
     display: flex;
     justify-content: space-evenly;
-    align-items: flex-end;
+    align-items: flex-end; /* This aligns the towers to the bottom */
     height: 280px;
     background: rgba(0, 0, 0, 0.2);
     border-radius: 10px;
@@ -263,14 +276,19 @@ body {
 }
 
 .tower {
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
     position: relative;
-    min-width: 70px;
+    height: auto; /* Changed from 500px to auto */
+    width: 200px;
+    margin: 0 auto;
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end; /* This will push content to the bottom */
+    min-height: 100%; /* Take full height of container */
 }
+
 
 .tower:hover {
     transform: scale(1.05);
@@ -289,194 +307,88 @@ body {
     box-shadow: 0 0 20px #e74c3c;
 }
 
-/* Enhanced LEGO Blocks */
-.lego-block {
-    width: 60px;
-    height: 24px;
-    margin: 2px 0;
-    border-radius: 6px;
-    position: relative;
-    box-shadow:
-        inset 0 2px 0 rgba(255, 255, 255, 0.4),
-        inset 0 -2px 0 rgba(0, 0, 0, 0.3),
-        0 3px 6px rgba(0, 0, 0, 0.3);
-    animation: blockPlace 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.9);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-    user-select: none;
-    cursor: pointer;
-}
-
-.lego-block:hover {
-    filter: brightness(1.15);
-}
-
-@keyframes blockPlace {
-    0% {
-        transform: translateY(-50px) scale(0.5);
-        opacity: 0;
-    }
-
-    70% {
-        transform: translateY(5px) scale(1.1);
-    }
-
-    100% {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-    }
-}
-
-/* LEGO studs */
-.lego-block::before {
-    content: '';
-    position: absolute;
-    top: 4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 12px;
-    height: 12px;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 50%;
-    box-shadow:
-        inset 0 2px 2px rgba(0, 0, 0, 0.2),
-        0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-/* LEGO Colors with realistic gradients */
-.lego-red {
-    background: linear-gradient(145deg, #dc2626, #b91c1c);
-    border: 2px solid #991b1b;
-}
-
-.lego-blue {
-    background: linear-gradient(145deg, #2563eb, #1d4ed8);
-    border: 2px solid #1e40af;
-}
-
-.lego-green {
-    background: linear-gradient(145deg, #16a34a, #15803d);
-    border: 2px solid #166534;
-}
-
-.lego-yellow {
-    background: linear-gradient(145deg, #eab308, #ca8a04);
-    border: 2px solid #a16207;
-}
-
-.lego-orange {
-    background: linear-gradient(145deg, #ea580c, #c2410c);
-    border: 2px solid #9a3412;
-}
-
-.lego-purple {
-    background: linear-gradient(145deg, #9333ea, #7c3aed);
-    border: 2px solid #6b21a8;
-}
-
 .tower-label {
     background: rgba(0, 0, 0, 0.8);
     color: white;
     padding: 8px 12px;
     border-radius: 15px;
     font-weight: bold;
-    margin-top: 10px;
     font-size: 0.9rem;
     text-align: center;
     min-width: 80px;
+    margin-top: 10px; /* Add some space between blocks and label */
+    position: static; /* Remove any absolute positioning */
 }
 
-/* Controls Section */
-.controls-section {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.control-panel {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    padding: 20px;
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.control-btn {
-    width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: bold;
+/*Enhanced LEGO Blocks*/
+.lego-block {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
     cursor: pointer;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    animation: blockAppear 0.6s ease-out forwards;
     transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    position: relative;
-    overflow: hidden;
-    user-select: none;
+}
+.lego-block:hover {
+    filter: brightness(1.15);
+}
+/* Control Panel */
+.control-panel {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Adds space between buttons */
+    margin-top: 20px;
+    width: 100%;
 }
 
-.control-btn::before {
-    content: '';
+/* Button Image & Text Styling */
+.control-btn {
+    position: relative;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    width: 250px; /* Fixed width for buttons */
+    height: 100px; /* Fixed height for buttons */
+}
+/* Button Image */
+.btn-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Ensures image fits properly */
+}
+
+.btn-text {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 0;
-    height: 0;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
     transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    width: 100%;
+    text-align: center;
+    z-index: 2;
+    pointer-events: none; /* Prevents text from blocking button clicks */
 }
-
-.control-btn:hover::before {
-    width: 300px;
-    height: 300px;
-}
-
+/* Hover Effects */
 .control-btn:hover {
+    background: transparent;
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    filter: brightness(1.1);
 }
 
-.btn-build {
-    background: linear-gradient(135deg, #10b981, #059669);
-    color: white;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
-}
-
-.btn-check {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-    color: white;
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
-}
-
-.btn-remove {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
-    color: white;
-    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
-}
-
-.btn-new {
-    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-    color: white;
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
-}
-
-.btn-build:disabled,
-.btn-remove:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+/* Disabled State */
+.control-btn:disabled .btn-image {
+    opacity: 0.6;
+    filter: grayscale(50%);
 }
 
 /* Result Display */
@@ -602,4 +514,90 @@ body {
         width: 45px;
         height: 20px;
     }
+}
+
+.structure-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    animation: fadeIn 0.3s;
+}
+
+.modal-content {
+    background: #FFBF69;
+    margin: 5% auto;
+    padding: 25px;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.lego-structure {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 25px 0;
+    min-height: 200px;
+    align-items: flex-end;
+}
+
+.modal-towers {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 30px 0;
+    align-items: flex-end;
+    min-height: 250px;
+}
+
+.modal-tower {
+    display: flex;
+    flex-direction: column-reverse;
+    /* Stack from bottom up */
+    align-items: center;
+    justify-content: flex-end;
+    /* Align to bottom */
+    height: 250px;
+    /* Fixed height for all towers */
+    width: 70px;
+    /* Matches game tower width */
+    margin: 0 15px;
+}
+
+.modal-block {
+    width: 60px;
+    height: 24px;
+    /* Standard LEGO height */
+    margin: 0 !important;
+    /* Remove all margins */
+    padding: 0;
+    background-size: 60px 24px;
+    /* Exact block dimensions */
+    position: relative;
+    /* For absolute positioning if needed */
+    display: block;
+    border-radius: 4px;
+    box-shadow:
+        0 2px 0 rgba(0, 0, 0, 0.2),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+    transform: scale(1.2);
+    /* Slightly larger than game */
+    transform-origin: bottom;
+    /* Scale from bottom */
+}
+
+.modal-tower-label {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    margin-top: 10px;
+    font-size: 0.9rem;
 }

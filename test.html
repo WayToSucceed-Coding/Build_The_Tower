@@ -1,0 +1,279 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .controls {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .stack-button {
+            background: #00b894;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .stack-button:hover {
+            background: #00a085;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .stack-button:active {
+            transform: translateY(0);
+        }
+
+        .reset-button {
+            background: #e74c3c;
+        }
+
+        .reset-button:hover {
+            background: #c0392b;
+        }
+
+        .lego-tower {
+            position: relative;
+            height: 500px;
+            width: 200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+        }
+        
+        .lego-tower img {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            cursor: pointer;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+            opacity: 0;
+            animation: blockAppear 0.6s ease-out forwards;
+            transition: all 0.3s ease;
+        }
+
+        .lego-tower img:hover {
+            transform: translateX(-50%) scale(1.05);
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+        }
+
+        @keyframes blockAppear {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-100px) scale(0.8);
+            }
+            50% {
+                transform: translateX(-50%) translateY(10px) scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+        }
+
+        .counter {
+            margin-top: 20px;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .status {
+            margin-top: 10px;
+            color: white;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .empty-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 18px;
+            text-align: center;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <button class="stack-button" onclick="addBlock()">Add LEGO Block</button>
+        <button class="stack-button reset-button" onclick="resetTower()">Reset Tower</button>
+        <button class="stack-button" onclick="removeLastBlock()">Remove Last Block</button>
+    </div>
+
+    <div class="lego-tower" id="legoTower">
+        <div class="empty-message" id="emptyMessage">
+            Click "Add LEGO Block" to start building!
+        </div>
+    </div>
+
+    <div class="counter">
+        <span id="blockCount">Blocks in tower: 0</span>
+    </div>
+    
+    <div class="status" id="status">
+        Ready to build your LEGO tower! No limits - stack as high as you want!
+    </div>
+
+    <script>
+        let blockCount = 0;
+        const blockHeight = 60; // Height spacing between blocks
+
+        function addBlock() {
+            const tower = document.getElementById('legoTower');
+            const status = document.getElementById('status');
+            const emptyMessage = document.getElementById('emptyMessage');
+            
+            // Hide empty message when first block is added
+            if (blockCount === 0) {
+                emptyMessage.style.display = 'none';
+            }
+            
+            // Create new LEGO block image
+            const newBlock = document.createElement('img');
+            newBlock.src = 'images/Lego1.png';
+            newBlock.alt = 'LEGO block';
+            newBlock.onclick = function() { wiggleBlock(this); };
+            
+            // Calculate position for new block (stack from bottom up)
+            const bottomPosition = 20 + (blockCount * blockHeight);
+            newBlock.style.bottom = bottomPosition + 'px';
+            newBlock.style.zIndex = blockCount + 1;
+            
+            // Add the block to the tower
+            tower.appendChild(newBlock);
+            blockCount++;
+            
+            // Update counter and status
+            document.getElementById('blockCount').textContent = `Blocks in tower: ${blockCount}`;
+            status.textContent = `Block ${blockCount} added! Keep building your tower!`;
+            
+            // Add a little celebration effect for the tower
+            setTimeout(() => {
+                tower.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    tower.style.transform = 'scale(1)';
+                }, 200);
+            }, 300);
+            
+            // Scroll tower container if getting too tall
+            if (blockCount > 6) {
+                tower.scrollTop = tower.scrollHeight;
+            }
+        }
+
+        function removeLastBlock() {
+            const tower = document.getElementById('legoTower');
+            const status = document.getElementById('status');
+            const emptyMessage = document.getElementById('emptyMessage');
+            const blocks = tower.querySelectorAll('img');
+            
+            if (blocks.length > 0) {
+                // Remove the last (topmost) block
+                const lastBlock = blocks[blocks.length - 1];
+                lastBlock.style.animation = 'none';
+                lastBlock.style.transform = 'translateX(-50%) translateY(-100px) scale(0.5)';
+                lastBlock.style.opacity = '0';
+                
+                setTimeout(() => {
+                    lastBlock.remove();
+                }, 300);
+                
+                blockCount--;
+                document.getElementById('blockCount').textContent = `Blocks in tower: ${blockCount}`;
+                
+                if (blockCount === 0) {
+                    emptyMessage.style.display = 'block';
+                    status.textContent = 'All blocks removed! Ready to build again.';
+                } else {
+                    status.textContent = `Block removed! ${blockCount} blocks remaining.`;
+                }
+            } else {
+                status.textContent = 'No blocks to remove!';
+            }
+        }
+
+        function resetTower() {
+            const tower = document.getElementById('legoTower');
+            const status = document.getElementById('status');
+            const emptyMessage = document.getElementById('emptyMessage');
+            
+            // Remove all LEGO blocks with animation
+            const blocks = tower.querySelectorAll('img');
+            blocks.forEach((block, index) => {
+                setTimeout(() => {
+                    block.style.animation = 'none';
+                    block.style.transform = 'translateX(-50%) translateY(-100px) scale(0.5)';
+                    block.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        block.remove();
+                    }, 300);
+                }, index * 100);
+            });
+            
+            // Reset counter
+            setTimeout(() => {
+                blockCount = 0;
+                document.getElementById('blockCount').textContent = `Blocks in tower: ${blockCount}`;
+                emptyMessage.style.display = 'block';
+                status.textContent = 'Tower reset! Ready to build again.';
+            }, blocks.length * 100 + 300);
+        }
+
+        function wiggleBlock(block) {
+            const currentTransform = block.style.transform || 'translateX(-50%)';
+            block.style.transform = currentTransform + ' rotate(10deg)';
+            
+            setTimeout(() => {
+                block.style.transform = currentTransform + ' rotate(-10deg)';
+                setTimeout(() => {
+                    block.style.transform = 'translateX(-50%)';
+                }, 100);
+            }, 100);
+        }
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'a' || event.key === 'A') {
+                addBlock();
+            } else if (event.key === 'r' || event.key === 'R') {
+                resetTower();
+            } else if (event.key === 'd' || event.key === 'D') {
+                removeLastBlock();
+            }
+        });
+    </script>
+</body>
+</html>
